@@ -1,0 +1,342 @@
+{
+  "nodes": [
+    {
+      "id": "_github_workflows_cmake_build_build_workflow",
+      "label": "Build Workflow",
+      "file_type": "code",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\.github\\workflows\\cmake_build.yml",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "_github_workflows_cmake_build_cmake",
+      "label": "CMake",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\.github\\workflows\\cmake_build.yml",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "_github_workflows_cmake_build_conan",
+      "label": "Conan",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\.github\\workflows\\cmake_build.yml",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "_github_workflows_cmake_ci_ci_workflow",
+      "label": "CI Workflow",
+      "file_type": "code",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\.github\\workflows\\cmake_ci.yml",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agents_gtproxy",
+      "label": "GTProxy",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agents_cmake",
+      "label": "CMake",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agents_conan",
+      "label": "Conan",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agents_gtest",
+      "label": "Google Test",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agents_cpp_httplib",
+      "label": "cpp-httplib",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "agents_enet",
+      "label": "ENet",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cmakelists_gtproxy",
+      "label": "GTProxy",
+      "file_type": "code",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\CMakeLists.txt",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "readme_growtopia_proxy",
+      "label": "Growtopia Proxy",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lib_cmakelists_gtproxy_library",
+      "label": "GTProxy-Library",
+      "file_type": "code",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\lib\\CMakeLists.txt",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "src_cmakelists_proxy",
+      "label": "Proxy",
+      "file_type": "code",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\src\\CMakeLists.txt",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "tests_cmakelists_gtproxy_tests",
+      "label": "GTProxy_tests",
+      "file_type": "code",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\tests\\CMakeLists.txt",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "tests_cmakelists_gtest",
+      "label": "GTest",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\tests\\CMakeLists.txt",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "_github_workflows_cmake_build_build_workflow",
+      "target": "_github_workflows_cmake_build_cmake",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\.github\\workflows\\cmake_build.yml",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "_github_workflows_cmake_build_build_workflow",
+      "target": "_github_workflows_cmake_build_conan",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\.github\\workflows\\cmake_build.yml",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "_github_workflows_cmake_ci_ci_workflow",
+      "target": "_github_workflows_cmake_build_build_workflow",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\.github\\workflows\\cmake_ci.yml",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agents_gtproxy",
+      "target": "agents_cmake",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agents_gtproxy",
+      "target": "agents_conan",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agents_gtproxy",
+      "target": "agents_enet",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cmakelists_gtproxy",
+      "target": "lib_cmakelists_gtproxy_library",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\CMakeLists.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cmakelists_gtproxy",
+      "target": "src_cmakelists_proxy",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\CMakeLists.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "cmakelists_gtproxy",
+      "target": "tests_cmakelists_gtproxy_tests",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\CMakeLists.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "tests_cmakelists_gtproxy_tests",
+      "target": "tests_cmakelists_gtest",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\tests\\CMakeLists.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "tests_cmakelists_gtest",
+      "target": "agents_gtest",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\tests\\CMakeLists.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agents_cmake",
+      "target": "_github_workflows_cmake_build_cmake",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "agents_conan",
+      "target": "_github_workflows_cmake_build_conan",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "readme_growtopia_proxy",
+      "target": "agents_gtproxy",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\README.md",
+      "source_location": null,
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "gtproxy_tech_stack",
+      "label": "GTProxy Technology Stack",
+      "nodes": [
+        "agents_gtproxy",
+        "agents_cmake",
+        "agents_conan",
+        "agents_enet",
+        "agents_gtest",
+        "agents_cpp_httplib"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\fuzzy\\Downloads\\GTProxy-3.0\\GTProxy-3.0\\AGENTS.md"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

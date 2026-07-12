@@ -1,0 +1,8 @@
+C:\Users\fuzzy\Downloads\GTProxy-3.0\GTProxy-3.0\.github\workflows\cmake_build.yml
+C:\Users\fuzzy\Downloads\GTProxy-3.0\GTProxy-3.0\.github\workflows\cmake_ci.yml
+C:\Users\fuzzy\Downloads\GTProxy-3.0\GTProxy-3.0\AGENTS.md
+C:\Users\fuzzy\Downloads\GTProxy-3.0\GTProxy-3.0\CMakeLists.txt
+C:\Users\fuzzy\Downloads\GTProxy-3.0\GTProxy-3.0\README.md
+C:\Users\fuzzy\Downloads\GTProxy-3.0\GTProxy-3.0\lib\CMakeLists.txt
+C:\Users\fuzzy\Downloads\GTProxy-3.0\GTProxy-3.0\src\CMakeLists.txt
+C:\Users\fuzzy\Downloads\GTProxy-3.0\GTProxy-3.0\tests\CMakeLists.txt
