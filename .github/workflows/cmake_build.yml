@@ -57,6 +57,9 @@ jobs:
           mkdir ${{github.workspace}}\output
           copy ${{github.workspace}}\build\src\${{env.BUILD_TYPE}}\*.exe ${{github.workspace}}\output
           Get-ChildItem -Path ${{github.workspace}}\build -Filter *.dll -Recurse | Copy-Item -Destination ${{github.workspace}}\output
+          if (Test-Path ${{github.workspace}}\resources) { Copy-Item -Path ${{github.workspace}}\resources -Destination ${{github.workspace}}\output\resources -Recurse }
+          if (Test-Path ${{github.workspace}}\scripts) { Copy-Item -Path ${{github.workspace}}\scripts -Destination ${{github.workspace}}\output\scripts -Recurse }
+          if (Test-Path ${{github.workspace}}\config.json) { Copy-Item -Path ${{github.workspace}}\config.json -Destination ${{github.workspace}}\output }
 
       - name: Upload artifact
         uses: actions/upload-artifact@v6
