@@ -27,10 +27,10 @@ Server::Server(core::Config& config, event::Dispatcher& dispatcher)
 ENetHost* Server::create_host(std::uint16_t port)
 {
     ENetAddress address{};
-    address.host = ENET_HOST_ANY;
+    address.type = ENET_ADDRESS_TYPE_ANY;
     address.port = port;
 
-    ENetHost* host{ enet_host_create(&address, 1, 2, 0, 0) };
+    ENetHost* host{ enet_host_create(ENET_ADDRESS_TYPE_ANY, &address, 1, 2, 0, 0) };
     if (!host) {
         return nullptr;
     }
@@ -50,7 +50,7 @@ void Server::on_connect(ENetPeer* peer)
 {
     spdlog::info(
         "Client {}:{} connected to proxy server",
-        network::format_ip_address(peer->address.host),
+        network::format_ip_address(*reinterpret_cast<const uint32_t*>(peer->address.host.v4)),
         peer->address.port
     );
 
