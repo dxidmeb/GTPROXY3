@@ -143,6 +143,10 @@ public:
                 byte_stream.read(value);
                 variants_.emplace_back(value);
             }
+            else {
+                spdlog::warn("PacketVariant::deserialize() encountered unknown type {}", type);
+                return false;
+            }
         }
 
         return true;
