@@ -1,6 +1,6 @@
-﻿from conan import ConanFile
+from conan import ConanFile
 from conan.tools.cmake import CMake, cmake_layout
-# from conan.tools.files import copy
+from conan.tools.files import copy
 
 class GTProxyRecipe(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
@@ -23,12 +23,12 @@ class GTProxyRecipe(ConanFile):
     def layout(self):
         cmake_layout(self)
 
-    # def generate(self):
-    #     for dep in self.dependencies.values():
-    #         if dep.cpp_info.bindirs:
-    #             copy(self, '*.dll', dep.cpp_info.bindirs[0], self.build_folder)
-    #         if dep.cpp_info.libdirs:
-    #             copy(self, '*.lib', dep.cpp_info.libdirs[0], self.build_folder)
+    def generate(self):
+        for dep in self.dependencies.values():
+            if dep.cpp_info.bindirs:
+                copy(self, '*.dll', dep.cpp_info.bindirs[0], self.build_folder)
+            if dep.cpp_info.libdirs:
+                copy(self, '*.lib', dep.cpp_info.libdirs[0], self.build_folder)
 
     def build(self):
         cmake = CMake(self)

@@ -56,7 +56,7 @@ jobs:
         run: |
           mkdir ${{github.workspace}}\output
           copy ${{github.workspace}}\build\src\${{env.BUILD_TYPE}}\*.exe ${{github.workspace}}\output
-          copy ${{github.workspace}}\build\conan\build\*.dll ${{github.workspace}}\output
+          Get-ChildItem -Path ${{github.workspace}}\build -Filter *.dll -Recurse | Copy-Item -Destination ${{github.workspace}}\output
 
       - name: Upload artifact
         uses: actions/upload-artifact@v6
