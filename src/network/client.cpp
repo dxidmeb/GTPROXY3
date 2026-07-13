@@ -22,7 +22,7 @@ Client::Client(core::Config& config, event::Dispatcher& dispatcher)
 
 ENetHost* Client::create_host()
 {
-    ENetHost* host{ enet_host_create(ENET_ADDRESS_TYPE_ANY, nullptr, 1, 2, 0, 0) };
+    ENetHost* host{ enet_host_create(ENET_ADDRESS_TYPE_IPV4, nullptr, 1, 2, 0, 0) };
     if (!host) {
         return nullptr;
     }
@@ -45,7 +45,7 @@ bool Client::connect(const std::string& host, std::uint16_t port)
     }
 
     ENetAddress address{};
-    enet_address_set_host(&address, ENET_ADDRESS_TYPE_ANY, host.c_str());
+    enet_address_set_host(&address, ENET_ADDRESS_TYPE_IPV4, host.c_str());
     address.port = port;
 
     peer_ = enet_host_connect(host_, &address, 2, 0);

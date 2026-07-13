@@ -27,10 +27,10 @@ Server::Server(core::Config& config, event::Dispatcher& dispatcher)
 ENetHost* Server::create_host(std::uint16_t port)
 {
     ENetAddress address{};
-    address.type = ENET_ADDRESS_TYPE_ANY;
+    address.type = ENET_ADDRESS_TYPE_IPV4;
     address.port = port;
 
-    ENetHost* host{ enet_host_create(ENET_ADDRESS_TYPE_ANY, &address, 1, 2, 0, 0) };
+    ENetHost* host{ enet_host_create(ENET_ADDRESS_TYPE_IPV4, &address, 1, 2, 0, 0) };
     if (!host) {
         return nullptr;
     }
