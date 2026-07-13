@@ -38,7 +38,7 @@ void SessionHandler::setup_raw_packet_handlers() const
             return;
         }
 
-        spdlog::info("[Server -> Client] Packet ({} bytes): {}", raw_packet->data.size(), spdlog::to_hex(raw_packet->data.begin(), raw_packet->data.end()));
+        spdlog::info("[Server -> Client] Packet ({} bytes) forwarded", raw_packet->data.size());
 
         std::ignore = server_.write(raw_packet->data);
     });
@@ -49,7 +49,7 @@ void SessionHandler::setup_raw_packet_handlers() const
             return;
         }
 
-        spdlog::info("[Client -> Server] Packet ({} bytes): {}", raw_packet->data.size(), spdlog::to_hex(raw_packet->data.begin(), raw_packet->data.end()));
+        spdlog::info("[Client -> Server] Packet ({} bytes) forwarded", raw_packet->data.size());
 
         std::ignore = client_.write(raw_packet->data);
     });
