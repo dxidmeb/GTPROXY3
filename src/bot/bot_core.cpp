@@ -3,6 +3,7 @@
 #include "../packet/packet_helper.hpp"
 #include "../utils/text_parse.hpp"
 #include "../utils/byte_stream.hpp"
+#include "../packet/packet_variant.hpp"
 
 #include <spdlog/spdlog.h>
 #include <fstream>
@@ -31,7 +32,7 @@ struct RawGenericText : packet::TextPacket<packet::PacketId::Unknown, packet::NE
     std::string data;
     bool read(const packet::Payload&) override { return false; }
     packet::Payload write() override {
-        return packet::TextPayload{ MESSAGE_TYPE, utils::TextParse{data} };
+        return packet::TextPayload{ MESSAGE_TYPE, TextParse{data} };
     }
 };
 
@@ -114,7 +115,7 @@ void BotCore::setup_event_listeners()
         const auto* raw_packet = dynamic_cast<const event::RawPacketEvent*>(&event);
         if (!raw_packet) return;
 
-        utils::ByteStream stream{ raw_packet->data };
+        ByteStream stream{ raw_packet->data };
         packet::NetMessageType msg_type{};
         if (!stream.read(msg_type)) return;
 
