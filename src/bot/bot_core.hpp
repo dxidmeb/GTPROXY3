@@ -2,7 +2,7 @@
 #include <string>
 #include <memory>
 #include "../network/client.hpp"
-#include "../event/dispatcher.hpp"
+#include "../event/event.hpp"
 
 namespace bot {
 class WebController;
