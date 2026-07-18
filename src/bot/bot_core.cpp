@@ -1,9 +1,8 @@
 #include "bot_core.hpp"
 #include "web_controller.hpp"
 #include "../packet/packet_helper.hpp"
-#include "../packet/message/chat.hpp"
-#include "../packet/game/server.hpp"
 #include "../utils/text_parse.hpp"
+#include "../utils/byte_stream.hpp"
 
 #include <spdlog/spdlog.h>
 #include <fstream>
@@ -115,39 +114,56 @@ void BotCore::setup_event_listeners()
         const auto* raw_packet = dynamic_cast<const event::RawPacketEvent*>(&event);
         if (!raw_packet) return;
 
-        auto payload = packet::Payload::parse(raw_packet->data);
-        if (!payload) return;
+        utils::ByteStream stream{ raw_packet->data };
+        packet::NetMessageType msg_type{};
+        if (!stream.read(msg_type)) return;
 
-        if (auto* text = packet::get_payload_if<packet::TextPayload>(*payload)) {
-            if (text->message_type == packet::NET_MESSAGE_SERVER_HELLO) {
-                spdlog::info("Received Server Hello. Sending enter_game...");
-                
-                RawGenericText enter{};
-                enter.data = "action|enter_game\n";
-                packet::PacketHelper::write(enter, *client_);
-            }
+        if (msg_type == packet::NET_MESSAGE_SERVER_HELLO) {
+            spdlog::info("Received Server Hello. Sending enter_game...");
+            RawGenericText enter{};
+            enter.data = "action|enter_game\n";
+            packet::PacketHelper::write(enter, *client_);
         }
-        else if (auto* var = packet::get_payload_if<packet::VariantPayload>(*payload)) {
-            const auto& fn = var->variant.get_function_name();
-            if (fn == "OnSendToServer") {
-                int port = var->variant.get<int32_t>(1);
-                int token = var->variant.get<int32_t>(2);
-                int user = var->variant.get<int32_t>(3);
-                std::string ip_door_uuid = var->variant.get<std::string>(4);
-                
-                TextParse parse{ip_door_uuid, "|" };
-                std::string ip = parse.get("0");
-                int doorID = std::stoi(parse.get("1", "0"));
-                std::string uuid = parse.get("2");
+        else if (msg_type == packet::NET_MESSAGE_GAME_PACKET) {
+            packet::GameUpdatePacket game_pkt{};
+            stream.read(game_pkt);
 
-                spdlog::info("Bouncing to {}:{} (User: {}, Token: {})", ip, port, user, token);
-                
-                client_->disconnect();
-                connect_to_server(ip, port);
-                send_sub_login(std::to_string(user), std::to_string(token), uuid, doorID);
-            }
-            else if (fn == "OnConsoleMessage") {
-                spdlog::info("Chat: {}", var->variant.get<std::string>(1));
+            if (game_pkt.type == packet::PACKET_CALL_FUNCTION) {
+                std::vector<std::byte> extra{};
+                stream.read_vector(extra, static_cast<uint16_t>(
+                     game_pkt.data_size > 0 ? game_pkt.data_size : stream.get_size() - stream.get_read_offset()
+                ));
+
+                stream.backtrack(extra.size() + sizeof(packet::GameUpdatePacket));
+                stream.skip(sizeof(packet::GameUpdatePacket));
+
+                packet::PacketVariant variant{};
+                if (!variant.deserialize(extra)) return;
+
+                const auto& fn = variant.get<std::string>(0);
+                if (fn == "OnSendToServer") {
+                    int port = variant.get<int32_t>(1);
+                    int token = variant.get<int32_t>(2);
+                    int user = variant.get<int32_t>(3);
+                    std::string raw_text = variant.get<std::string>(4);
+                    
+                    std::string key = raw_text.substr(0, raw_text.find_first_of('|'));
+                    TextParse text_parse{};
+                    text_parse.parse(raw_text);
+                    
+                    std::string ip = key;
+                    int doorID = 0;
+                    try { doorID = std::stoi(text_parse.get(key, 0)); } catch (...) {}
+                    std::string uuid = text_parse.get(key, 1);
+
+                    spdlog::info("Bouncing to {}:{} (User: {}, Token: {})", ip, port, user, token);
+                    client_->disconnect();
+                    connect_to_server(ip, port);
+                    send_sub_login(std::to_string(user), std::to_string(token), uuid, doorID);
+                }
+                else if (fn == "OnConsoleMessage") {
+                    spdlog::info("Chat: {}", variant.get<std::string>(1));
+                }
             }
         }
     });
@@ -172,9 +188,9 @@ void BotCore::move(float x, float y, bool left)
 
 void BotCore::send_text(const std::string& text)
 {
-    packet::message::Chat chat{};
-    chat.msg = "action|input\n|text|" + text;
-    packet::PacketHelper::write(chat, *client_);
+    RawGenericText pkt{};
+    pkt.data = "action|input\n|text|" + text;
+    packet::PacketHelper::write(pkt, *client_);
 }
 
 } // namespace bot
