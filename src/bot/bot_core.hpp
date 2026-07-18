@@ -3,6 +3,7 @@
 #include <memory>
 #include "../network/client.hpp"
 #include "../event/event.hpp"
+#include "../core/config.hpp"
 
 namespace bot {
 class WebController;
@@ -33,6 +34,7 @@ private:
     std::string login_payload_{};
     
     event::Dispatcher dispatcher_;
+    core::Config config_;
     std::unique_ptr<network::Client> client_;
     std::unique_ptr<WebController> web_controller_;
     

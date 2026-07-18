@@ -36,7 +36,7 @@ struct RawGenericText : packet::TextPacket<packet::PacketId::Unknown, packet::NE
     }
 };
 
-BotCore::BotCore() : client_(std::make_unique<network::Client>(dispatcher_)), web_controller_(std::make_unique<WebController>(*this))
+BotCore::BotCore() : client_(std::make_unique<network::Client>(config_, dispatcher_)), web_controller_(std::make_unique<WebController>(*this))
 {
     setup_event_listeners();
     load_login_payload();
@@ -51,7 +51,7 @@ void BotCore::run()
     connect_to_server("213.179.209.175", 17044); // Default to live server for now
 
     while (running_) {
-        client_->service();
+        client_->process();
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
     }
 }
@@ -92,7 +92,7 @@ void BotCore::send_login()
 
 void BotCore::send_sub_login(const std::string& user, const std::string& token, const std::string& uuidToken, int doorID)
 {
-    utils::TextParse parse{login_payload_};
+    TextParse parse{login_payload_};
     parse.set("user", user);
     parse.set("token", token);
     parse.set("UUIDToken", uuidToken);
@@ -100,14 +100,14 @@ void BotCore::send_sub_login(const std::string& user, const std::string& token, 
     parse.set("lmode", "1"); // Sub-server transition
 
     RawGenericText pkt{};
-    pkt.data = parse.get_all_raw();
+    pkt.data = parse.get_raw();
     packet::PacketHelper::write(pkt, *client_);
     spdlog::info("Sent sub-server login payload");
 }
 
 void BotCore::setup_event_listeners()
 {
-    dispatcher_.appendListener(event::Type::ClientConnected, [this](const event::Event&) {
+    dispatcher_.appendListener(event::Type::ClientConnect, [this](const event::Event&) {
         spdlog::info("Connected! Awaiting Server Hello...");
     });
 
@@ -115,7 +115,7 @@ void BotCore::setup_event_listeners()
         const auto* raw_packet = dynamic_cast<const event::RawPacketEvent*>(&event);
         if (!raw_packet) return;
 
-        auto payload = packet::Payload::create(raw_packet->data);
+        auto payload = packet::Payload::parse(raw_packet->data);
         if (!payload) return;
 
         if (auto* text = packet::get_payload_if<packet::TextPayload>(*payload)) {
@@ -135,7 +135,7 @@ void BotCore::setup_event_listeners()
                 int user = var->variant.get<int32_t>(3);
                 std::string ip_door_uuid = var->variant.get<std::string>(4);
                 
-                utils::TextParse parse{ip_door_uuid, "|" };
+                TextParse parse{ip_door_uuid, "|" };
                 std::string ip = parse.get("0");
                 int doorID = std::stoi(parse.get("1", "0"));
                 std::string uuid = parse.get("2");
