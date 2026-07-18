@@ -90,3 +90,54 @@ add_custom_command(
     "${CMAKE_SOURCE_DIR}/resources"
     "$<TARGET_FILE_DIR:${PROJECT_NAME}>/resources"
     COMMENT "Copying ${CMAKE_SOURCE_DIR}/resources to $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources.")
+
+# --- GTBot Executable ---
+file(GLOB GTBOT_SOURCE_FILES
+    bot/*.cpp
+    core/config.cpp
+    core/logger.cpp
+    network/*.cpp
+    packet/*.cpp
+    utils/*.cpp)
+
+add_executable(GTBot
+    ${GTPROXY_INCLUDE_FILES}
+    ${GTBOT_SOURCE_FILES})
+
+target_link_libraries(GTBot
+    enet
+    eventpp::eventpp
+    fmt::fmt
+    glaze::glaze
+    glm::glm
+    httplib::httplib
+    LibreSSL::TLS
+    LibreSSL::Crypto
+    magic_enum::magic_enum
+    pcg-cpp::pcg-cpp
+    spdlog::spdlog)
+
+target_include_directories(GTBot PRIVATE
+    ${CMAKE_SOURCE_DIR}/lib/enet/include
+    ${CMAKE_SOURCE_DIR}/lib/libressl/include)
+
+if (MSVC)
+    target_compile_options(GTBot PRIVATE /EHsc)
+else ()
+    target_compile_options(GTBot PRIVATE -fexceptions)
+endif ()
+
+target_compile_definitions(GTBot PUBLIC
+    NOMINMAX
+    WIN32_LEAN_AND_MEAN
+    SPDLOG_FMT_EXTERNAL
+    CPPHTTPLIB_OPENSSL_SUPPORT)
+
+target_compile_definitions(GTBot PRIVATE
+    GTPROXY_VERSION_MAJOR=${CMAKE_PROJECT_VERSION_MAJOR}
+    GTPROXY_VERSION_MINOR=${CMAKE_PROJECT_VERSION_MINOR}
+    GTPROXY_VERSION_PATCH=${CMAKE_PROJECT_VERSION_PATCH})
+
+if (NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "" OR CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_definitions(GTBot PRIVATE GTPROXY_DEBUG)
+endif ()
