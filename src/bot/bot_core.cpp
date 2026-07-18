@@ -1,7 +1,6 @@
 #include "bot_core.hpp"
 #include "web_controller.hpp"
 #include "../packet/packet_helper.hpp"
-#include "../packet/message/generic_text.hpp"
 #include "../packet/message/chat.hpp"
 #include "../packet/game/state.hpp"
 #include "../packet/game/server.hpp"
@@ -13,6 +12,14 @@
 #include <chrono>
 
 namespace bot {
+
+struct RawGenericText : packet::TextPacket<packet::PacketId::Unknown, packet::NET_MESSAGE_GENERIC_TEXT> {
+    std::string data;
+    bool read(const packet::Payload&) override { return false; }
+    packet::Payload write() override {
+        return packet::TextPayload{ MESSAGE_TYPE, utils::TextParse{data} };
+    }
+};
 
 BotCore::BotCore() : client_(std::make_unique<network::Client>(dispatcher_)), web_controller_(std::make_unique<WebController>(*this))
 {
@@ -62,7 +69,7 @@ void BotCore::send_login()
 {
     if (login_payload_.empty()) return;
 
-    packet::message::GenericText pkt{};
+    RawGenericText pkt{};
     pkt.data = login_payload_;
     packet::PacketHelper::write(pkt, *client_);
     spdlog::info("Sent initial login payload");
@@ -77,7 +84,7 @@ void BotCore::send_sub_login(const std::string& user, const std::string& token, 
     parse.set("doorID", std::to_string(doorID));
     parse.set("lmode", "1"); // Sub-server transition
 
-    packet::message::GenericText pkt{};
+    RawGenericText pkt{};
     pkt.data = parse.get_all_raw();
     packet::PacketHelper::write(pkt, *client_);
     spdlog::info("Sent sub-server login payload");
@@ -100,7 +107,7 @@ void BotCore::setup_event_listeners()
             if (text->message_type == packet::NET_MESSAGE_SERVER_HELLO) {
                 spdlog::info("Received Server Hello. Sending enter_game...");
                 
-                packet::message::GenericText enter{};
+                RawGenericText enter{};
                 enter.data = "action|enter_game\n";
                 packet::PacketHelper::write(enter, *client_);
             }
@@ -133,7 +140,7 @@ void BotCore::setup_event_listeners()
 
 void BotCore::join_world(const std::string& world_name)
 {
-    packet::message::GenericText pkt{};
+    RawGenericText pkt{};
     pkt.data = "action|join_request\nname|" + world_name + "\ninvitedWorld|0";
     packet::PacketHelper::write(pkt, *client_);
     spdlog::info("Joining world: {}", world_name);
