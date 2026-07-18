@@ -2,7 +2,6 @@
 #include "web_controller.hpp"
 #include "../packet/packet_helper.hpp"
 #include "../packet/message/chat.hpp"
-#include "../packet/game/state.hpp"
 #include "../packet/game/server.hpp"
 #include "../utils/text_parse.hpp"
 
@@ -12,6 +11,22 @@
 #include <chrono>
 
 namespace bot {
+
+struct RawState : packet::GamePacket<packet::PacketId::Unknown, packet::PACKET_STATE> {
+    float vec_x;
+    float vec_y;
+    bool rotate_left;
+    bool read(const packet::Payload&) override { return false; }
+    packet::Payload write() override {
+        packet::GameUpdatePacket pkt{};
+        pkt.type = packet::PACKET_STATE;
+        pkt.flags.rotate_left = rotate_left;
+        // Basic cast to pad_4 for vec_x and vec_y (offsets 0 and 4 in pad_4 typically)
+        *reinterpret_cast<float*>(&pkt.pad_4[0]) = vec_x;
+        *reinterpret_cast<float*>(&pkt.pad_4[4]) = vec_y;
+        return packet::GamePayload{ pkt, {} };
+    }
+};
 
 struct RawGenericText : packet::TextPacket<packet::PacketId::Unknown, packet::NET_MESSAGE_GENERIC_TEXT> {
     std::string data;
@@ -148,10 +163,10 @@ void BotCore::join_world(const std::string& world_name)
 
 void BotCore::move(float x, float y, bool left)
 {
-    packet::game::State state{};
+    RawState state{};
     state.vec_x = x;
     state.vec_y = y;
-    state.packet.flags.rotate_left = left;
+    state.rotate_left = left;
     packet::PacketHelper::write(state, *client_);
 }
 
