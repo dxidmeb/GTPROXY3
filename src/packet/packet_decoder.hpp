@@ -35,7 +35,11 @@ public:
             Payload payload = text_payload;
 
             spdlog::info("Received server hello packet");
-            return PacketRegistry::instance().create(payload);
+            auto packet = PacketRegistry::instance().create(payload);
+            if (!packet) {
+                return std::nullopt;
+            }
+            return packet;
         }
         case NET_MESSAGE_GENERIC_TEXT:
         case NET_MESSAGE_GAME_MESSAGE: {

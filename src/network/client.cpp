@@ -86,6 +86,11 @@ void Client::on_receive(ENetPeer* peer, std::span<const std::byte> data)
     }
 
     const auto& packet{ decoded.value() };
+    if (!packet) {
+        const event::RawPacketEvent evt{ event::Type::ClientBoundPacket, data };
+        dispatcher_.dispatch(evt);
+        return;
+    }
     if (
         const auto& registry{ packet::event_registry::PacketEventRegistry::instance() };
         registry.has_event(packet->id())
