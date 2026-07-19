@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <glaze/glaze.hpp>
 #include <spdlog/spdlog.h>
-#include "../../utils/singleton.hpp"
+#include "../utils/singleton.hpp"
 
 namespace world {
 class ItemDatabase : public utils::Singleton<ItemDatabase> {

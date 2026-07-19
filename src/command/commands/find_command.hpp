@@ -32,7 +32,7 @@ public:
         auto raw_data = packet::PacketHelper::serialize(payload);
         raw_data.push_back(static_cast<std::byte>(0x00));
         
-        ctx.client.write(raw_data, 0);
+        (void)ctx.client.write(raw_data, 0);
 
         return Result::Success;
     }

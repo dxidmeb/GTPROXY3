@@ -87,7 +87,7 @@ private:
         auto raw_data = packet::PacketHelper::serialize(payload);
         raw_data.push_back(static_cast<std::byte>(0x00));
         
-        client_.write(raw_data, 0);
+        (void)client_.write(raw_data, 0);
     }
 
     void handle_item_select(uint32_t item_id)
@@ -103,7 +103,7 @@ private:
         auto raw_data = packet::PacketHelper::serialize(payload);
         raw_data.push_back(static_cast<std::byte>(0x00));
         
-        client_.write(raw_data, 0);
+        (void)client_.write(raw_data, 0);
 
         // Visual spoof logic: Send OnSetClothing to the client
         packet::PacketVariant spoof_pkt{};
@@ -116,7 +116,7 @@ private:
         auto spoof_data = packet::PacketHelper::serialize(spoof_payload);
         spoof_data.push_back(static_cast<std::byte>(0x00));
 
-        client_.write(spoof_data, 0);
+        (void)client_.write(spoof_data, 0);
     }
 
     event::Dispatcher& dispatcher_;
