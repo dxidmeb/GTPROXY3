@@ -4,6 +4,7 @@
 #include "session_handler.hpp"
 #include "web_server.hpp"
 #include "../command/command_handler.hpp"
+#include "../player/dialog_handler.hpp"
 #include "../network/client.hpp"
 #include "../network/server.hpp"
 #include "../utils/types.hpp"
@@ -32,5 +33,6 @@ private:
 
     std::unique_ptr<SessionHandler> session_handler_;
     std::unique_ptr<command::CommandHandler> command_handler_;
+    std::unique_ptr<player::DialogHandler> dialog_handler_;
 };
 }

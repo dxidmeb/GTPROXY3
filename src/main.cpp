@@ -3,6 +3,7 @@
 
 #include "core/core.hpp"
 #include "core/logger.hpp"
+#include "world/item_database.hpp"
 
 std::unique_ptr<core::Core> g_core{ nullptr };
 
@@ -45,6 +46,8 @@ try {
             GTPROXY_VERSION_MINOR,
             GTPROXY_VERSION_PATCH
         );
+
+        world::ItemDatabase::instance().load();
 
         g_core = std::make_unique<core::Core>();
 

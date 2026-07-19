@@ -9,6 +9,7 @@
 #include <fstream>
 #include <thread>
 #include <chrono>
+#include <httplib.h>
 
 namespace bot {
 
@@ -48,7 +49,50 @@ BotCore::~BotCore() = default;
 void BotCore::run()
 {
     running_ = true;
-    connect_to_server("213.179.209.175", 17044); // Default to live server for now
+    
+    std::string server_address = config_.get_server_config().address;
+    spdlog::info("Fetching server_data.php from {}", server_address);
+
+    httplib::Client cli{ "http://" + server_address };
+    cli.set_connection_timeout(5, 0); // 5 seconds
+    httplib::Headers headers{
+        { "User-Agent", "UbiServices_SDK_2022.Release.9_PC64_unicode_static" },
+        { "Host", server_address }
+    };
+    httplib::Params params{
+        { "version", config_.get_client_config().game_version },
+        { "platform", "0" },
+        { "protocol", std::to_string(config_.get_client_config().protocol) }
+    };
+
+    httplib::Result response{ cli.Post("/growtopia/server_data.php", headers, params) };
+    
+    if (!response || response->status != 200) {
+        spdlog::warn("HTTP /growtopia/server_data.php failed on {}. Trying HTTPS...", server_address);
+        httplib::Client https_cli{ "https://" + server_address };
+        https_cli.enable_server_certificate_verification(false);
+        https_cli.set_connection_timeout(5, 0);
+        response = https_cli.Post("/growtopia/server_data.php", headers, params);
+    }
+
+    if (!response || response->status != 200) {
+        spdlog::error("Failed to fetch server_data.php from {}. Please check your config.json address.", server_address);
+        return;
+    }
+
+    TextParse text_parse{ response->body };
+    std::string ip = text_parse.get("server", 0);
+    std::string port_str = text_parse.get("port", 0);
+    
+    if (ip.empty() || port_str.empty()) {
+        spdlog::error("Invalid server_data.php response. Missing server or port data.");
+        return;
+    }
+
+    uint16_t port = static_cast<uint16_t>(std::stoul(port_str));
+    spdlog::info("Fetched target login server: {}:{}", ip, port);
+
+    connect_to_server(ip, port);
 
     while (running_) {
         client_->process();
