@@ -181,6 +181,55 @@ void WebServer::listen_internal()
         return true;
     });
 
+    auto proxy_handler = [this](const httplib::Request& req, httplib::Response& res) -> bool {
+        spdlog::info("Proxying {} {}", req.method, req.path);
+        
+        std::string server_address = config_.get_server_config().address;
+        std::string resolved_ip = dns_resolver_.resolve_ip(server_address);
+
+        if (resolved_ip.empty()) {
+            res.status = 500;
+            return true;
+        }
+
+        httplib::Headers forwarded_headers = req.headers;
+        forwarded_headers.erase("Host");
+        forwarded_headers.emplace("Host", server_address);
+
+        httplib::Client cli{ fmt::format("http://{}", resolved_ip) };
+        cli.set_connection_timeout(5);
+
+        httplib::Result response;
+        if (req.method == "POST") {
+            response = cli.Post(req.path, forwarded_headers, req.body, req.get_header_value("Content-Type"));
+        } else {
+            response = cli.Get(req.path, forwarded_headers);
+        }
+
+        if (!response || response->status != 200) {
+            httplib::Client https_cli{ fmt::format("https://{}", resolved_ip) };
+            https_cli.enable_server_certificate_verification(false);
+            https_cli.set_connection_timeout(5);
+            if (req.method == "POST") {
+                response = https_cli.Post(req.path, forwarded_headers, req.body, req.get_header_value("Content-Type"));
+            } else {
+                response = https_cli.Get(req.path, forwarded_headers);
+            }
+        }
+
+        if (response) {
+            res.status = response->status;
+            res.set_content(response->body, response->get_header_value("Content-Type"));
+        } else {
+            res.status = 502;
+            res.set_content("Bad Gateway", "text/plain");
+        }
+        return true;
+    };
+
+    https_server_.Post(".*", proxy_handler);
+    https_server_.Get(".*", proxy_handler);
+
     https_server_.listen_after_bind();
 }
 
