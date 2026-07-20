@@ -174,7 +174,6 @@ void WebServer::listen_internal()
 
         text_parse.set("server", { "127.0.0.1" });
         text_parse.set("port", { std::to_string(config_.get_server_config().port) });
-        text_parse.set("type2", { "1" });
 
         spdlog::debug("Modified server_data.php response:\n{}", text_parse);
 
