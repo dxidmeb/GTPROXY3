@@ -8,6 +8,7 @@
 #include "../packet/payload.hpp"
 #include "../packet/packet_helper.hpp"
 #include "../utils/text_parse.hpp"
+#include "../utils/byte_stream.hpp"
 #include "../world/item_database.hpp"
 #include "spoofer.hpp"
 
@@ -34,7 +35,7 @@ private:
     {
         const auto* raw = dynamic_cast<const event::RawPacketEvent*>(&e);
         if (raw) {
-            utils::ByteStream stream{ raw->data };
+            ByteStream stream{ raw->data };
             packet::NetMessageType msg_type{};
             if (!stream.read(msg_type)) return;
 
