@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <unordered_map>
-#include "../../utils/singleton.hpp"
+#include "../utils/singleton.hpp"
 
 namespace player {
 class Spoofer : public utils::Singleton<Spoofer> {
