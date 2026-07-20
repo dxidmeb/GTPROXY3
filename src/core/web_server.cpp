@@ -103,8 +103,8 @@ void WebServer::listen_internal()
             return true;
         }
 
-        httplib::Client cli{ fmt::format("https://{}", resolved_ip) };
-        cli.enable_server_certificate_verification(false);
+        httplib::Client cli{ fmt::format("http://{}", resolved_ip) };
+        cli.set_connection_timeout(5);
 
         httplib::Headers headers{
             { "User-Agent", req.get_header_value("User-Agent") },
@@ -112,6 +112,15 @@ void WebServer::listen_internal()
         };
 
         httplib::Result response{ cli.Post("/growtopia/server_data.php", headers, req.params) };
+        
+        if (!response || response->status != 200) {
+            spdlog::warn("HTTP /growtopia/server_data.php failed on {}. Trying HTTPS...", server_address);
+            httplib::Client https_cli{ fmt::format("https://{}", resolved_ip) };
+            https_cli.enable_server_certificate_verification(false);
+            https_cli.set_connection_timeout(5);
+            response = https_cli.Post("/growtopia/server_data.php", headers, req.params);
+        }
+
         if (!response) {
             spdlog::error(
                 "Response is null: httplib::Error::{}",
